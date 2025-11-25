@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
-LUNA="https://raw.githubusercontent.com/tp-handler/luna/main/LunaOWO.zip"
+LUNA="https://raw.githubusercontent.com/tp-handler/luna/main/Luna.zip"
 
 APP_NAME="LunaMac"
 TEMP_DIR=$(mktemp -d)
