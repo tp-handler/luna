@@ -45,10 +45,10 @@ main() {
 
     if [ -w "/Applications" ]; then
         TARGET_DIR="/Applications"
-        echo -e "${CYAN}Global permissions detected. Installing to: $TARGET_DIR${NC}"
+        echo -e "${CYAN}Global permissions detected. Installing to: $TARGET_DIR${NC}${NC}"
     else
         TARGET_DIR="$HOME/Applications"
-        echo -e "${YELLOW}Local user detected (no global write access). Installing to: $TARGET_DIR${NC}"
+        echo -e "${YELLOW}Local user detected (no global write access). Installing to: $TARGET_DIR${NC}${NC}"
     fi
 
     curl -fsSL "$LUNA" -o "$TEMP_DIR/Luna.zip" &
