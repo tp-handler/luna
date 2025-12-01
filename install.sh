@@ -107,7 +107,6 @@ EOF
     (
         chmod -R 755 "$INSTALL_PATH"
         xattr -cr "$INSTALL_PATH"
-        codesign --remove-signature "$INSTALL_PATH" 2>/dev/null
         codesign --force --deep --options runtime --sign - --entitlements "$ENTITLEMENTS_FILE" "$INSTALL_PATH"
     ) &
     spinner "Finalizing & Securing app"
