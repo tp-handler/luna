@@ -31,9 +31,9 @@ spinner() {
     printf "\033[?25h"
     
     if [ $exit_code -eq 0 ]; then
-        printf "\r${GREEN}[✔] ${1} - Done${NC}   \n"
+        printf "\r${GREEN}[✔] ${1} - Done${NC}    \n"
     else
-        printf "\r${RED}[✘] ${1} - Failed${NC}   \n"
+        printf "\r${RED}[✘] ${1} - Failed${NC}    \n"
         if [[ "$1" == *"Downloading"* ]]; then exit 1; fi
     fi
 }
@@ -78,13 +78,15 @@ main() {
     if [ ! -d "$TARGET_DIR" ]; then
         mkdir -p "$TARGET_DIR"
     fi
-
+    
     if [ -d "$INSTALL_PATH" ]; then
-        (rm -rf "$INSTALL_PATH") &
-        spinner "Removing old version"
+        (
+            rsync -a --delete "$APP_PATH/" "$INSTALL_PATH/"
+        ) &
+        spinner "Updating existing version"
+    else
+        mv "$APP_PATH" "$TARGET_DIR/"
     fi
-
-    mv "$APP_PATH" "$TARGET_DIR/"
 
     cat > "$ENTITLEMENTS_FILE" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
