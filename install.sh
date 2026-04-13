@@ -6,7 +6,7 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-LUNA="https://raw.githubusercontent.com/tp-handler/luna/main/Luna"
+LUNA_URL="https://github.com/tp-handler/luna/releases/latest/download/Luna"
 
 TEMP_DIR=$(mktemp -d)
 TARGET_DIR="/Applications"
@@ -17,24 +17,19 @@ spinner() {
     local delay=0.1
     local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
     local i=0
-    
     printf "\033[?25l"
-    
     while ps -p $pid &>/dev/null; do
         printf "\r${CYAN}[${spinstr:i++%${#spinstr}:1}] ${1}...${NC} "
         sleep $delay
     done
-    
     wait $pid
     local exit_code=$?
-    
     printf "\033[?25h"
-    
     if [ $exit_code -eq 0 ]; then
         printf "\r${GREEN}[✔] ${1} - Done${NC}    \n"
     else
         printf "\r${RED}[✘] ${1} - Failed${NC}    \n"
-        if [[ "$1" == *"Downloading"* ]]; then exit 1; fi
+        exit 1
     fi
 }
 
@@ -44,16 +39,14 @@ main() {
 
     if [ -w "/Applications" ]; then
         TARGET_DIR="/Applications"
-        echo -e "${CYAN}Global permissions detected. Installing to: $TARGET_DIR${NC}"
     else
         TARGET_DIR="$HOME/Applications"
-        echo -e "${YELLOW}Local user detected. Installing to: $TARGET_DIR${NC}"
     fi
 
     mkdir -p "$TARGET_DIR"
 
-    curl -fsSL "$LUNA" -o "$TEMP_DIR/Luna" &
-    spinner "Downloading Luna"
+    curl -fsSL "$LUNA_URL" -o "$TEMP_DIR/Luna" &
+    spinner "Downloading latest Luna release"
 
     INSTALL_PATH="$TARGET_DIR/Luna"
 
